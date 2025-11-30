@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>To-Do List</title>
+</head>
+<body>
+
+    <h1>To-Do List</h1>
+
+    <input id="addInput" type="text" placeholder="Write your task here...">
+    <button id="addBtn"> + </button>
+
+    <p>3 out of 4 tasks completed.</p>
+
+    <input id="searchInput" type="text" placeholder="Search tasks...">
+    
+    <br><br>
+
+    <div id="list">
+        <div class="task">
+            <span class="taskText">Study React</span>
+            <button class="done">✔</button>
+            <button class="edit">✎</button>
+            <button class="del">🗑</button>
+        </div>
+        <hr>
+
+        <div class="task">
+            <span class="taskText finished"><s>Learn about Num Pi's in Python.</s></span>
+            <button class="done">✔</button>
+            <button class="edit">✎</button>
+            <button class="del">🗑</button>
+        </div>
+
+        <div class="task">
+            <span class="taskText"><s>Complete a Python tutorial video.</s></span>
+            <button class="done">✔</button>
+            <button class="edit">✎</button>
+            <button class="del">🗑</button>
+        </div>
+
+        <div class="task">
+            <span class="taskText"><s>Learn about Pandas in Python</s></span>
+            <button class="done">✔</button>
+            <button class="edit">✎</button>
+            <button class="del">🗑</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        const addInput = document.getElementById("addInput");
+const addBtn = document.getElementById("addBtn");
+const list = document.getElementById("list");
+const searchInput = document.getElementById("searchInput");
+
+
+addBtn.onclick = () => {
+    if (addInput.value.trim() !== "") {
+        addTask(addInput.value);
+        addInput.value = "";
+    }
+};
+
+function addTask(text) {
+    const item = document.createElement("div");
+    item.className = "task";
+
+    item.innerHTML = `
+        <span class="taskText">${text}</span>
+        <button class="done">✔</button>
+        <button class="edit">✎</button>
+        <button class="del">🗑</button>
+    `;
+
+    
+    item.querySelector(".done").onclick = () => {
+        item.querySelector(".taskText").classList.toggle("finished");
+    };
+
+    
+    item.querySelector(".edit").onclick = () => {
+        const newText = prompt("تعديل المهمة:", item.querySelector(".taskText").textContent);
+        if (newText) item.querySelector(".taskText").textContent = newText;
+    };
+
+    
+    item.querySelector(".del").onclick = () => {
+        item.remove();
+    };
+
+    list.appendChild(item);
+}
+
+searchInput.oninput = () => {
+    const tasks = document.querySelectorAll(".task");
+    tasks.forEach(task => {
+        const txt = task.querySelector(".taskText").textContent.toLowerCase();
+        const searchTxt = searchInput.value.toLowerCase();
+        task.style.display = txt.includes(searchTxt) ? "flex" : "none";
+    });
+};
+
+    </script>
+
+</body>
+
+</html>
